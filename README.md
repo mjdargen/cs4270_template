@@ -38,15 +38,15 @@
 
 If you already have another JDK installed, that’s fine. You can still install this one and later configure VS Code to use the correct Java runtime.
 
-[https://bell-sw.com/pages/downloads](https://bell-sw.com/pages/downloads)
+[https://bell-sw.com/pages/downloads/#jdk-21-lts](https://bell-sw.com/pages/downloads/#jdk-21-lts)
 
 1. Go to the page above.
-2. Click the tab for the latest **LTS (Long-Term Support)** release (for example, Java 21 LTS).
+2. Make sure you are on the tab for the **JDK 21 LTS** (Long-Term Support) release.
 3. Scroll down to the section for your operating system.
 4. Open the “Package” dropdown and **select “Full JDK”** (this is the one that includes JavaFX).
-5. On **Windows**, download the `.msi` installer and run it.On **Mac**, download the `.dmg` file and run it.
+5. On **Windows**, download the `.msi` installer and run it. On **Mac**, download the `.dmg` file and run it.
 
-![image.png](https://ncssm.instructure.com/courses/12681/files/2673932/preview)
+![JDK Install](_tutorial\jdk_install.png)
 
 **STOP! Are you sure you downloaded the FULL JDK?** Every year, someone downloads the Standard or Lite JDK without JavaFX. Make sure the filename or package description says **“Full JDK with JavaFX”** before continuing.
 
@@ -75,7 +75,7 @@ You **must** disable GitHub Copilot and other AI features in VS Code for this 
 2. In the search bar, type “chat disable.”
 3. Enable the option **“Disable AI features.”**
 
-![Screenshot 2025-10-23 162205.png](https://ncssm.instructure.com/courses/12681/files/2785955/preview)
+![VS Code AI Disable](_tutorial\vscode_ai.png)
 
 Or edit your user `settings.json` directly:
 
@@ -87,28 +87,48 @@ Or edit your user `settings.json` directly:
 
 Maven manages external Java libraries (dependencies). It downloads them automatically into your project based on your `pom.xml` configuration file. VS Code’s Java extensions integrate Maven directly, allowing you to search for dependencies from **Maven Central**.
 
+[https://maven.apache.org/install.html](https://maven.apache.org/install.html)
+
 #### Windows
 
 1. Open the Start menu, search for **PowerShell**, right-click, and select **Run as administrator**.
 2. Copy and paste the following command. When it completes, you should see Maven and Java version information.
 
 ```ps
-$MavenUrl = "https://dlcdn.apache.org/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.zip"; $MavenZipPath = "$env:USERPROFILE\Downloads\apache-maven-3.9.11-bin.zip"; Invoke-WebRequest -Uri $MavenUrl -OutFile $MavenZipPath; $ProgramFilesPath = [System.Environment]::GetFolderPath('ProgramFiles'); $MavenExtractPath = "$ProgramFilesPath\apache-maven"; Expand-Archive -Path $MavenZipPath -DestinationPath $MavenExtractPath; $MavenBinPath = "$MavenExtractPath\apache-maven-3.9.11\bin"; $currentPath = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::Machine); if (-not $currentPath.Contains($MavenBinPath)) { $newPath = $currentPath + ";" + $MavenBinPath; [System.Environment]::SetEnvironmentVariable("Path", $newPath, [System.EnvironmentVariableTarget]::Machine) }; [System.Environment]::SetEnvironmentVariable("Path", [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::Machine), [System.EnvironmentVariableTarget]::Process); mvn -v
+$MavenUrl = "https://dlcdn.apache.org/maven/maven-3/3.8.9/binaries/apache-maven-3.8.9-bin.zip"; $MavenZipPath = "$env:USERPROFILE\Downloads\apache-maven-3.8.9-bin.zip"; Invoke-WebRequest -Uri $MavenUrl -OutFile $MavenZipPath; $ProgramFilesPath = [System.Environment]::GetFolderPath('ProgramFiles'); $MavenExtractPath = "$ProgramFilesPath\apache-maven"; Expand-Archive -Path $MavenZipPath -DestinationPath $MavenExtractPath; $MavenBinPath = "$MavenExtractPath\apache-maven-3.8.9\bin"; $currentPath = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::Machine); if (-not $currentPath.Contains($MavenBinPath)) { $newPath = $currentPath + ";" + $MavenBinPath; [System.Environment]::SetEnvironmentVariable("Path", $newPath, [System.EnvironmentVariableTarget]::Machine) }; [System.Environment]::SetEnvironmentVariable("Path", [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::Machine), [System.EnvironmentVariableTarget]::Process); mvn -v
 ```
+
+Run `mvn -v` to confirm installation.
 
 #### Mac
 
 Open **Terminal**, then run:
 
 ```bash
-curl -L https://dlcdn.apache.org/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.tar.gz -o ~/Downloads/apache-maven-3.9.11-bin.tar.gz && sudo mkdir -p /usr/local/apache-maven && sudo tar -xzvf ~/Downloads/apache-maven-3.9.11-bin.tar.gz -C /usr/local/apache-maven --strip-components=1 && if ! grep -q "/usr/local/apache-maven/bin" ~/.bash_profile; then echo "export PATH=\$PATH:/usr/local/apache-maven/bin" >> ~/.bash_profile && source ~/.bash_profile; fi && if [ -f "~/.zshrc" ] && ! grep -q "/usr/local/apache-maven/bin" ~/.zshrc; then echo "export PATH=\$PATH:/usr/local/apache-maven/bin" >> ~/.zshrc && source ~/.zshrc; fi && mvn -v
+curl -L https://dlcdn.apache.org/maven/maven-3/3.8.9/binaries/apache-maven-3.8.9-bin.tar.gz -o ~/Downloads/apache-maven-3.8.9-bin.tar.gz && sudo mkdir -p /usr/local/apache-maven && sudo tar -xzvf ~/Downloads/apache-maven-3.8.9-bin.tar.gz -C /usr/local/apache-maven --strip-components=1 && if ! grep -q "/usr/local/apache-maven/bin" ~/.bash_profile; then echo "export PATH=\$PATH:/usr/local/apache-maven/bin" >> ~/.bash_profile && source ~/.bash_profile; fi && if [ -f "~/.zshrc" ] && ! grep -q "/usr/local/apache-maven/bin" ~/.zshrc; then echo "export PATH=\$PATH:/usr/local/apache-maven/bin" >> ~/.zshrc && source ~/.zshrc; fi && mvn -v
 ```
+
+Run `mvn -v` to confirm installation.
+
+<!-- First, install [Homebrew](https://brew.sh/) if not already installed. It is a package manager for Mac that allows you to easily install packages via the terminal. To install Homebrew, open **Terminal** and then run:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+Once you've done that, exit the terminal and then re-open it (this is sometimes necessary to use a new application you just installed). Then to install Maven, run the following command:
+
+```bash
+brew install maven
+```
+
+Run `mvn -v` to confirm installation. -->
 
 #### Manual Installation (if needed)
 
 If the automated commands fail:
 
-1. Go to [https://maven.apache.org/download.cgi](https://maven.apache.org/download.cgi)
+1. Go to [https://dlcdn.apache.org/maven/maven-3/3.8.9/binaries/](https://dlcdn.apache.org/maven/maven-3/3.8.9/binaries/)
 2. Download the **Binary zip archive**.
 3. Extract it and move the folder to a stable location (e.g. `C:\Program Files` on Windows or `/usr/local` on Mac).
 4. Add its `bin` directory to your PATH.
@@ -122,6 +142,30 @@ Run `mvn -v` again to confirm installation.
 [https://git-scm.com/install/](https://git-scm.com/install/)
 
 Git is a **version control system**. It tracks changes, allows collaboration, and lets you revert to previous versions if something breaks. Think of it as Google Docs for code, but with files and folders instead of text documents.
+
+### Windows
+
+[https://git-scm.com/install/windows](https://git-scm.com/install/windows)
+
+Download and run the installer to setup git on Windows.
+
+Run `git --version` after installation to verify it’s installed correctly.
+
+### Mac
+
+[https://git-scm.com/install/mac](https://git-scm.com/install/mac)
+
+First, install [Homebrew](https://brew.sh/) if not already installed. It is a package manager for Mac that allows you to easily install packages via the terminal. To install Homebrew, open **Terminal** and then run:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+Once you've done that, exit the terminal and then re-open it (this is sometimes necessary to use a new application you just installed). Then to install Maven, run the following command:
+
+```bash
+brew install git
+```
 
 Run `git --version` after installation to verify it’s installed correctly.
 
